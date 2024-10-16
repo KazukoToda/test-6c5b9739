@@ -1,0 +1,95 @@
+{
+  "key": "nonFunctionsList",
+  "value": [
+    {
+      "id": "NON-001",
+      "category": "パフォーマンス",
+      "non_function_name": "応答時間",
+      "description": "ユーザーの質問に対するAIの応答時間は3秒以内とする。診断結果の分析と表示は10秒以内に完了すること"
+    },
+    {
+      "id": "NON-002",
+      "category": "スケーラビリティ",
+      "non_function_name": "同時接続ユーザー数",
+      "description": "システムは最大1000人の同時接続ユーザーを処理できること"
+    },
+    {
+      "id": "NON-003",
+      "category": "可用性",
+      "non_function_name": "システム稼働時間",
+      "description": "システムの稼働率は99.9%以上を維持すること。計画的なメンテナンス時間を除く"
+    },
+    {
+      "id": "NON-004",
+      "category": "セキュリティ",
+      "non_function_name": "データ暗号化",
+      "description": "ユーザーデータおよび診断結果は保存時と通信時に暗号化すること。暗号化アルゴリズムはAES-256を使用する"
+    },
+    {
+      "id": "NON-005",
+      "category": "セキュリティ",
+      "non_function_name": "アクセス制御",
+      "description": "ユーザー認証にはOAuth 2.0を使用し 役割ベースのアクセス制御（RBAC）を実装すること"
+    },
+    {
+      "id": "NON-006",
+      "category": "ユーザビリティ",
+      "non_function_name": "ユーザーインターフェース",
+      "description": "インターフェースはレスポンシブデザインを採用し デスクトップ タブレット スマートフォンで快適に利用できること"
+    },
+    {
+      "id": "NON-007",
+      "category": "信頼性",
+      "non_function_name": "バックアップと復旧",
+      "description": "データベースは1時間ごとに増分バックアップを行い 24時間以内にシステムを復旧できる体制を整えること"
+    },
+    {
+      "id": "NON-008",
+      "category": "拡張性",
+      "non_function_name": "APIサポート",
+      "description": "将来的な機能拡張やサードパーティ連携のためRESTful APIを提供すること"
+    },
+    {
+      "id": "NON-009",
+      "category": "保守性",
+      "non_function_name": "モジュール化",
+      "description": "システムはマイクロサービスアーキテクチャを採用し 各機能を独立したモジュールとして実装すること"
+    },
+    {
+      "id": "NON-010",
+      "category": "コンプライアンス",
+      "non_function_name": "法令遵守",
+      "description": "個人情報保護法およびGDPRに準拠したデータ管理を行うこと"
+    },
+    {
+      "id": "NON-011",
+      "category": "パフォーマンス",
+      "non_function_name": "データ処理能力",
+      "description": "1日あたり最大10000件の診断セッションを処理できる能力を確保すること"
+    },
+    {
+      "id": "NON-012",
+      "category": "ユーザビリティ",
+      "non_function_name": "多言語対応",
+      "description": "日本語と英語のインターフェースを提供し 将来的に他言語にも対応できる設計とすること"
+    },
+    {
+      "id": "NON-013",
+      "category": "セキュリティ",
+      "non_function_name": "監査ログ",
+      "description": "全てのシステム操作とデータアクセスの監査ログを記録し 1年間保存すること"
+    },
+    {
+      "id": "NON-014",
+      "category": "可用性",
+      "non_function_name": "災害復旧",
+      "description": "地理的に分散したデータセンターでシステムを冗長化し 災害時にもサービスを継続できる体制を整えること"
+    },
+    {
+      "id": "NON-015",
+      "category": "保守性",
+      "non_function_name": "バージョン管理",
+      "description": "ソースコードはGitを使用してバージョン管理を行い 継続的インテグレーション/デリバリー（CI/CD）パイプラインを構築すること"
+    }
+  ]
+}

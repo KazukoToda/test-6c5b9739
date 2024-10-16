@@ -1,0 +1,6 @@
+{
+  "key": "tobeOperationFlow",
+  "value": {
+    "mermaid": "graph TD\n    subgraph ユーザー\n        A[DX推進担当者] --> B[システムにアクセス]\n        B --> C[ログイン/アカウント作成]\n        C --> D[新規診断セッション開始]\n        D --> E[AI主導の質問応答]\n    end\n\n    subgraph システム\n        E --> F[LLMによる回答分析]\n        F --> G[リアルタイムフィードバック]\n        G --> H[詳細な結果分析]\n        H --> I[AIによる改善提案生成]\n        I --> J[診断レポート自動作成]\n    end\n\n    subgraph ユーザー\n        J --> K[診断結果とレポート確認]\n        K --> L[改善計画策定]\n        L --> M[進捗追跡と更新]\n    end\n\n    subgraph システム\n        M --> N[履歴データ保存]\n        N --> O[時系列での比較分析]\n        O --> P[次回診断の推奨]\n    end\n\n    subgraph サポート\n        Q[ヘルプデスク] --> R[FAQチャットボット]\n        Q --> S[電話/メールサポート]\n    end\n\n    subgraph セキュリティ\n        T[データ暗号化]\n        U[アクセス制御]\n        V[定期バックアップ]\n    end"
+  }
+}

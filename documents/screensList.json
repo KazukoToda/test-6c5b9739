@@ -1,0 +1,593 @@
+{
+  "key": "screensList",
+  "value": [
+    {
+      "id": "SCR-001",
+      "category": "認証",
+      "screenName": "ログイン画面",
+      "description": "ユーザーがシステムにログインするための画面",
+      "component": "ログインフォーム メールアドレス入力欄 パスワード入力欄 ログインボタン パスワードリセットリンク",
+      "operatingProcedure": "1. メールアドレスを入力する 2. パスワードを入力する 3. ログインボタンをクリックする 4. 認証に成功するとダッシュボードに遷移する",
+      "user": "全てのユーザー",
+      "accessRight": "ゲスト",
+      "fileName": "login.tsx",
+      "estimationCategory": "screen",
+      "functionName": "ログイン画面",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple",
+      "relatedBackendHandles": [
+        {
+          "id": "BAC-001",
+          "category": "認証",
+          "handleName": "ユーザー認証",
+          "description": "ユーザーのログイン認証を行う",
+          "handleProcedure": "1. フロントエンドから受け取ったメールアドレスとパスワードを検証する 2. データベースでユーザー情報を照合する 3. 認証成功時はJWTトークンを生成する 4. 認証結果とトークン（成功時）をフロントエンドに返す",
+          "fileName": "authenticate.ts",
+          "relatedScreen": "SCR-001",
+          "relatedFrontendCode": "\"use client\"\n\nimport React, { useState } from 'react';\nimport { useRouter } from 'next/navigation';\nimport { createClientComponentClient } from '@supabase/auth-helpers-nextjs';\nimport Topbar from '@/components/Topbar';\nimport { FaEnvelope, FaLock } from 'react-icons/fa';\n\nconst LoginPage = () => {\n  const [email, setEmail] = useState('');\n  const [password, setPassword] = useState('');\n  const [error, setError] = useState('');\n  const router = useRouter();\n  const supabase = createClientComponentClient();\n\n  const handleLogin = async (e: React.FormEvent) => {\n    e.preventDefault();\n    setError('');\n\n    try {\n      const { error } = await supabase.auth.signInWithPassword({\n        email,\n        password,\n      });\n\n      if (error) throw error;\n\n      router.push('/dashboard');\n    } catch (error) {\n      setError('ログインに失敗しました。メールアドレスとパスワードを確認してください。');\n    }\n  };\n\n  return (\n    <div className=\"min-h-screen h-full bg-gray-100\">\n      <Topbar />\n      <div className=\"flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8\">\n        <div className=\"max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-md\">\n          <div>\n            <h2 className=\"mt-6 text-center text-3xl font-extrabold text-gray-900\">\n              ログイン\n            </h2>\n          </div>\n          <form className=\"mt-8 space-y-6\" onSubmit={handleLogin}>\n            <div className=\"rounded-md shadow-sm -space-y-px\">\n              <div>\n                <label htmlFor=\"email-address\" className=\"sr-only\">\n                  メールアドレス\n                </label>\n                <div className=\"relative\">\n                  <div className=\"absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none\">\n                    <FaEnvelope className=\"h-5 w-5 text-gray-400\" />\n                  </div>\n                  <input\n                    id=\"email-address\"\n                    name=\"email\"\n                    type=\"email\"\n                    autoComplete=\"email\"\n                    required\n                    className=\"appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm\"\n                    placeholder=\"メールアドレス\"\n                    value={email}\n                    onChange={(e) => setEmail(e.target.value)}\n                  />\n                </div>\n              </div>\n              <div>\n                <label htmlFor=\"password\" className=\"sr-only\">\n                  パスワード\n                </label>\n                <div className=\"relative\">\n                  <div className=\"absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none\">\n                    <FaLock className=\"h-5 w-5 text-gray-400\" />\n                  </div>\n                  <input\n                    id=\"password\"\n                    name=\"password\"\n                    type=\"password\"\n                    autoComplete=\"current-password\"\n                    required\n                    className=\"appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm\"\n                    placeholder=\"パスワード\"\n                    value={password}\n                    onChange={(e) => setPassword(e.target.value)}\n                  />\n                </div>\n              </div>\n            </div>\n\n            <div>\n              <button\n                type=\"submit\"\n                className=\"group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500\"\n              >\n                ログイン\n              </button>\n            </div>\n          </form>\n\n          {error && (\n            <div className=\"mt-4 text-center text-sm text-red-600\">\n              {error}\n            </div>\n          )}\n\n          <div className=\"text-sm text-center\">\n            <a href=\"#\" className=\"font-medium text-indigo-600 hover:text-indigo-500\">\n              パスワードをお忘れですか？\n            </a>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default LoginPage;"
+        }
+      ]
+    },
+    {
+      "id": "SCR-002",
+      "category": "メイン",
+      "screenName": "ダッシュボード",
+      "description": "ユーザーのメイン画面でシステムの主要機能にアクセスできる",
+      "component": "新規診断開始ボタン 過去の診断結果リンク 改善計画一覧リンク アカウント設定リンク ヘルプサポートリンク",
+      "operatingProcedure": "1. 必要な機能のボタンやリンクをクリックする 2. 選択した機能の画面に遷移する",
+      "user": "ログインユーザー",
+      "accessRight": "ログインユーザー",
+      "fileName": "dashboard.tsx",
+      "estimationCategory": "screen",
+      "functionName": "ダッシュボード",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate",
+      "relatedBackendHandles": [
+        {
+          "id": "BAC-007",
+          "category": "セキュリティ",
+          "handleName": "データ暗号化",
+          "description": "保存されるデータを暗号化する",
+          "handleProcedure": "1. 暗号化が必要なデータを受け取る 2. 適切な暗号化アルゴリズムを使用してデータを暗号化する 3. 暗号化されたデータをデータベースに保存する 4. 暗号化が成功したことを確認する",
+          "fileName": "encrypt-data.ts",
+          "relatedScreen": "SCR-002",
+          "relatedFrontendCode": "\"use client\"\n\nimport React, { useState, useEffect } from 'react';\nimport { useRouter } from 'next/navigation';\nimport Link from 'next/link';\nimport Topbar from '@/components/Topbar';\nimport { FaChartLine, FaHistory, FaTasks, FaCog, FaQuestionCircle } from 'react-icons/fa';\nimport { createClientComponentClient } from '@supabase/auth-helpers-nextjs';\n\nconst Dashboard = () => {\n  const router = useRouter();\n  const [user, setUser] = useState(null);\n  const supabase = createClientComponentClient();\n\n  useEffect(() => {\n    const fetchUser = async () => {\n      const { data: { user } } = await supabase.auth.getUser();\n      if (user) {\n        setUser(user);\n      } else {\n        router.push('/login');\n      }\n    };\n    fetchUser();\n  }, []);\n\n  const cards = [\n    { title: '新規診断開始', icon: FaChartLine, link: '/new-diagnosis' },\n    { title: '過去の診断結果', icon: FaHistory, link: '/diagnosis-history' },\n    { title: '改善計画一覧', icon: FaTasks, link: '/improvement-plans' },\n    { title: 'アカウント設定', icon: FaCog, link: '/account-settings' },\n    { title: 'ヘルプサポート', icon: FaQuestionCircle, link: '/help-support' },\n  ];\n\n  return (\n    <div className=\"min-h-screen h-full bg-gray-100\">\n      <Topbar />\n      <div className=\"container mx-auto px-4 py-8\">\n        <h1 className=\"text-3xl font-bold text-gray-800 mb-6\">ダッシュボード</h1>\n        <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">\n          {cards.map((card, index) => (\n            <Link href={card.link} key={index}>\n              <div className=\"bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300\">\n                <card.icon className=\"text-4xl text-blue-500 mb-4\" />\n                <h2 className=\"text-xl font-semibold text-gray-700\">{card.title}</h2>\n              </div>\n            </Link>\n          ))}\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default Dashboard;"
+        },
+        {
+          "id": "BAC-008",
+          "category": "セキュリティ",
+          "handleName": "アクセス制御",
+          "description": "ユーザーの権限に基づいてデータアクセスを制御する",
+          "handleProcedure": "1. ユーザーIDとアクセス対象リソースを受け取る 2. ユーザーの権限レベルをデータベースから取得する 3. リソースに対するアクセス権限を確認する 4. アクセス許可または拒否の結果を返す",
+          "fileName": "access-control.ts",
+          "relatedScreen": "SCR-002",
+          "relatedFrontendCode": "\"use client\"\n\nimport React, { useState, useEffect } from 'react';\nimport { useRouter } from 'next/navigation';\nimport Link from 'next/link';\nimport Topbar from '@/components/Topbar';\nimport { FaChartLine, FaHistory, FaTasks, FaCog, FaQuestionCircle } from 'react-icons/fa';\nimport { createClientComponentClient } from '@supabase/auth-helpers-nextjs';\n\nconst Dashboard = () => {\n  const router = useRouter();\n  const [user, setUser] = useState(null);\n  const supabase = createClientComponentClient();\n\n  useEffect(() => {\n    const fetchUser = async () => {\n      const { data: { user } } = await supabase.auth.getUser();\n      if (user) {\n        setUser(user);\n      } else {\n        router.push('/login');\n      }\n    };\n    fetchUser();\n  }, []);\n\n  const cards = [\n    { title: '新規診断開始', icon: FaChartLine, link: '/new-diagnosis' },\n    { title: '過去の診断結果', icon: FaHistory, link: '/diagnosis-history' },\n    { title: '改善計画一覧', icon: FaTasks, link: '/improvement-plans' },\n    { title: 'アカウント設定', icon: FaCog, link: '/account-settings' },\n    { title: 'ヘルプサポート', icon: FaQuestionCircle, link: '/help-support' },\n  ];\n\n  return (\n    <div className=\"min-h-screen h-full bg-gray-100\">\n      <Topbar />\n      <div className=\"container mx-auto px-4 py-8\">\n        <h1 className=\"text-3xl font-bold text-gray-800 mb-6\">ダッシュボード</h1>\n        <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">\n          {cards.map((card, index) => (\n            <Link href={card.link} key={index}>\n              <div className=\"bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300\">\n                <card.icon className=\"text-4xl text-blue-500 mb-4\" />\n                <h2 className=\"text-xl font-semibold text-gray-700\">{card.title}</h2>\n              </div>\n            </Link>\n          ))}\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default Dashboard;"
+        }
+      ]
+    },
+    {
+      "id": "SCR-003",
+      "category": "診断",
+      "screenName": "新規診断開始",
+      "description": "新しい自己診断セッションを開始する画面",
+      "component": "診断概要説明 診断開始ボタン",
+      "operatingProcedure": "1. 診断の概要を確認する 2. 診断開始ボタンをクリックする 3. AI質問応答画面に遷移する",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "accessRight": "ログインユーザー",
+      "fileName": "new-diagnostic.tsx",
+      "estimationCategory": "screen",
+      "functionName": "新規診断開始",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0100",
+        "design": "0.0100",
+        "implementation": "0.0400",
+        "test": "0.0200",
+        "release": "0.0100",
+        "migration": "0.0100"
+      },
+      "difficulty": "Very Simple",
+      "relatedBackendHandles": []
+    },
+    {
+      "id": "SCR-004",
+      "category": "診断",
+      "screenName": "AI質問応答画面",
+      "description": "AIが生成した質問に回答する画面",
+      "component": "質問表示エリア 回答入力フォーム 送信ボタン 進捗バー",
+      "operatingProcedure": "1. 表示された質問を読む 2. 回答を入力する 3. 送信ボタンをクリックする 4. 次の質問が表示される 5. 全ての質問に回答後診断結果表示画面に遷移する",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "accessRight": "ログインユーザー",
+      "fileName": "ai-questionnaire.tsx",
+      "estimationCategory": "screen",
+      "functionName": "AI質問応答画面",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate",
+      "relatedBackendHandles": [
+        {
+          "id": "BAC-002",
+          "category": "診断",
+          "handleName": "AI質問生成",
+          "description": "LLMを使用してDX推進指標に基づいた質問を生成する",
+          "handleProcedure": "1. 診断セッションIDを受け取る 2. DX推進指標データを取得する 3. LLMに指標データを入力し質問を生成する 4. 生成された質問をデータベースに保存する 5. 質問リストをフロントエンドに返す",
+          "fileName": "generate-questions.ts",
+          "relatedScreen": "SCR-004",
+          "relatedFrontendCode": "\"use client\"\n\nimport React, { useState, useEffect } from 'react';\nimport { useRouter } from 'next/navigation';\nimport Topbar from '@/components/Topbar';\nimport { FiSend } from 'react-icons/fi';\nimport axios from 'axios';\n\nconst AIQuestionnaire = () => {\n  const router = useRouter();\n  const [currentQuestion, setCurrentQuestion] = useState('');\n  const [answer, setAnswer] = useState('');\n  const [progress, setProgress] = useState(0);\n  const [sessionId, setSessionId] = useState('');\n\n  useEffect(() => {\n    const startNewSession = async () => {\n      try {\n        const response = await axios.post('/api/generate-questions');\n        setSessionId(response.data.sessionId);\n        setCurrentQuestion(response.data.question);\n      } catch (error) {\n        console.error('Failed to start new session:', error);\n        setCurrentQuestion('AIが生成した質問がここに表示されます。');\n      }\n    };\n\n    startNewSession();\n  }, []);\n\n  const handleSubmit = async (e: React.FormEvent) => {\n    e.preventDefault();\n    if (!answer.trim()) return;\n\n    try {\n      const response = await axios.post('/api/generate-follow-up-questions', {\n        sessionId,\n        answer,\n      });\n      setCurrentQuestion(response.data.question);\n      setAnswer('');\n      setProgress((prev) => Math.min(prev + 10, 100));\n\n      if (response.data.isComplete) {\n        router.push('/diagnosis-result');\n      }\n    } catch (error) {\n      console.error('Failed to submit answer:', error);\n    }\n  };\n\n  return (\n    <div className=\"min-h-screen h-full bg-gray-100\">\n      <Topbar />\n      <div className=\"container mx-auto px-4 py-8\">\n        <h1 className=\"text-3xl font-bold text-center mb-8 text-gray-800\">AI質問応答</h1>\n        <div className=\"bg-white rounded-lg shadow-md p-6 mb-8\">\n          <h2 className=\"text-xl font-semibold mb-4 text-gray-700\">{currentQuestion}</h2>\n          <form onSubmit={handleSubmit} className=\"space-y-4\">\n            <textarea\n              value={answer}\n              onChange={(e) => setAnswer(e.target.value)}\n              className=\"w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500\"\n              rows={4}\n              placeholder=\"回答を入力してください...\"\n            />\n            <button\n              type=\"submit\"\n              className=\"w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300 flex items-center justify-center\"\n            >\n              <FiSend className=\"mr-2\" />\n              送信\n            </button>\n          </form>\n        </div>\n        <div className=\"bg-white rounded-lg shadow-md p-4\">\n          <div className=\"relative pt-1\">\n            <div className=\"flex mb-2 items-center justify-between\">\n              <div>\n                <span className=\"text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200\">\n                  進捗\n                </span>\n              </div>\n              <div className=\"text-right\">\n                <span className=\"text-xs font-semibold inline-block text-blue-600\">\n                  {progress}%\n                </span>\n              </div>\n            </div>\n            <div className=\"overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200\">\n              <div\n                style={{ width: `${progress}%` }}\n                className=\"shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500\"\n              ></div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default AIQuestionnaire;"
+        },
+        {
+          "id": "BAC-003",
+          "category": "診断",
+          "handleName": "AI追加質問生成",
+          "description": "ユーザーの回答に基づいて追加の質問を生成する",
+          "handleProcedure": "1. ユーザーの回答と診断コンテキストを受け取る 2. LLMに回答と診断コンテキストを入力し追加質問を生成する 3. 生成された追加質問をデータベースに保存する 4. 追加質問をフロントエンドに返す",
+          "fileName": "generate-follow-up-questions.ts",
+          "relatedScreen": "SCR-004",
+          "relatedFrontendCode": "\"use client\"\n\nimport React, { useState, useEffect } from 'react';\nimport { useRouter } from 'next/navigation';\nimport Topbar from '@/components/Topbar';\nimport { FiSend } from 'react-icons/fi';\nimport axios from 'axios';\n\nconst AIQuestionnaire = () => {\n  const router = useRouter();\n  const [currentQuestion, setCurrentQuestion] = useState('');\n  const [answer, setAnswer] = useState('');\n  const [progress, setProgress] = useState(0);\n  const [sessionId, setSessionId] = useState('');\n\n  useEffect(() => {\n    const startNewSession = async () => {\n      try {\n        const response = await axios.post('/api/generate-questions');\n        setSessionId(response.data.sessionId);\n        setCurrentQuestion(response.data.question);\n      } catch (error) {\n        console.error('Failed to start new session:', error);\n        setCurrentQuestion('AIが生成した質問がここに表示されます。');\n      }\n    };\n\n    startNewSession();\n  }, []);\n\n  const handleSubmit = async (e: React.FormEvent) => {\n    e.preventDefault();\n    if (!answer.trim()) return;\n\n    try {\n      const response = await axios.post('/api/generate-follow-up-questions', {\n        sessionId,\n        answer,\n      });\n      setCurrentQuestion(response.data.question);\n      setAnswer('');\n      setProgress((prev) => Math.min(prev + 10, 100));\n\n      if (response.data.isComplete) {\n        router.push('/diagnosis-result');\n      }\n    } catch (error) {\n      console.error('Failed to submit answer:', error);\n    }\n  };\n\n  return (\n    <div className=\"min-h-screen h-full bg-gray-100\">\n      <Topbar />\n      <div className=\"container mx-auto px-4 py-8\">\n        <h1 className=\"text-3xl font-bold text-center mb-8 text-gray-800\">AI質問応答</h1>\n        <div className=\"bg-white rounded-lg shadow-md p-6 mb-8\">\n          <h2 className=\"text-xl font-semibold mb-4 text-gray-700\">{currentQuestion}</h2>\n          <form onSubmit={handleSubmit} className=\"space-y-4\">\n            <textarea\n              value={answer}\n              onChange={(e) => setAnswer(e.target.value)}\n              className=\"w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500\"\n              rows={4}\n              placeholder=\"回答を入力してください...\"\n            />\n            <button\n              type=\"submit\"\n              className=\"w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300 flex items-center justify-center\"\n            >\n              <FiSend className=\"mr-2\" />\n              送信\n            </button>\n          </form>\n        </div>\n        <div className=\"bg-white rounded-lg shadow-md p-4\">\n          <div className=\"relative pt-1\">\n            <div className=\"flex mb-2 items-center justify-between\">\n              <div>\n                <span className=\"text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200\">\n                  進捗\n                </span>\n              </div>\n              <div className=\"text-right\">\n                <span className=\"text-xs font-semibold inline-block text-blue-600\">\n                  {progress}%\n                </span>\n              </div>\n            </div>\n            <div className=\"overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200\">\n              <div\n                style={{ width: `${progress}%` }}\n                className=\"shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500\"\n              ></div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default AIQuestionnaire;"
+        }
+      ]
+    },
+    {
+      "id": "SCR-005",
+      "category": "診断",
+      "screenName": "診断結果表示",
+      "description": "診断結果のスコアと分析を表示する画面",
+      "component": "全体スコア表示 カテゴリ別スコアグラフ 分析コメント表示 改善提案へのリンク",
+      "operatingProcedure": "1. 診断結果を確認する 2. カテゴリ別スコアを確認する 3. 分析コメントを読む 4. 改善提案リンクをクリックして改善提案表示画面に遷移する",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "accessRight": "ログインユーザー",
+      "fileName": "diagnostic-result.tsx",
+      "estimationCategory": "screen",
+      "functionName": "診断結果表示",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate",
+      "relatedBackendHandles": [
+        {
+          "id": "BAC-004",
+          "category": "診断",
+          "handleName": "回答分析",
+          "description": "AIがユーザーの回答を分析しスコアを算出する",
+          "handleProcedure": "1. 診断セッションIDと全回答データを受け取る 2. LLMを使用して回答を分析する 3. DX推進指標に基づいてスコアを算出する 4. 分析結果とスコアをデータベースに保存する 5. 結果をフロントエンドに返す",
+          "fileName": "analyze-answers.ts",
+          "relatedScreen": "SCR-005",
+          "relatedFrontendCode": "\"use client\"\n\nimport React, { useState, useEffect } from 'react';\nimport { useRouter } from 'next/navigation';\nimport Topbar from '@/components/Topbar';\nimport { createClientComponentClient } from '@supabase/auth-helpers-nextjs';\nimport { FaChartLine, FaLightbulb, FaFileAlt } from 'react-icons/fa';\n\nconst DiagnosticResult = () => {\n    const router = useRouter();\n    const supabase = createClientComponentClient();\n    const [diagnosticResult, setDiagnosticResult] = useState(null);\n\n    useEffect(() => {\n        const fetchDiagnosticResult = async () => {\n            try {\n                const { data, error } = await supabase\n                    .from('diagnostic_results')\n                    .select('*')\n                    .order('created_at', { ascending: false })\n                    .limit(1)\n                    .single();\n\n                if (error) throw error;\n                setDiagnosticResult(data);\n            } catch (error) {\n                console.error('診断結果の取得に失敗しました:', error.message);\n                // サンプルデータを設定\n                setDiagnosticResult({\n                    score: { overall: 65, categories: [\n                        { name: '戦略・ビジョン', score: 70 },\n                        { name: 'マネジメント', score: 60 },\n                        { name: '人材・組織', score: 65 },\n                        { name: 'デジタル技術活用', score: 55 },\n                    ]},\n                    analysis: 'あなたの企業のDX推進状況は平均的なレベルにあります。戦略・ビジョンの面では比較的高いスコアを示していますが、デジタル技術の活用にはまだ改善の余地があります。'\n                });\n            }\n        };\n\n        fetchDiagnosticResult();\n    }, []);\n\n    if (!diagnosticResult) {\n        return <div>読み込み中...</div>;\n    }\n\n    return (\n        <div className=\"min-h-screen h-full bg-gray-100\">\n            <Topbar />\n            <div className=\"container mx-auto px-4 py-8\">\n                <h1 className=\"text-3xl font-bold mb-8 text-center text-gray-800\">診断結果</h1>\n                <div className=\"bg-white shadow-lg rounded-lg p-6 mb-8\">\n                    <h2 className=\"text-2xl font-semibold mb-4 flex items-center\">\n                        <FaChartLine className=\"mr-2 text-blue-500\" />\n                        総合スコア\n                    </h2>\n                    <div className=\"text-5xl font-bold text-center text-blue-600 mb-4\">\n                        {diagnosticResult.score.overall}\n                    </div>\n                    <p className=\"text-gray-600 text-center\">100点満点中</p>\n                </div>\n\n                <div className=\"bg-white shadow-lg rounded-lg p-6 mb-8\">\n                    <h2 className=\"text-2xl font-semibold mb-4 flex items-center\">\n                        <FaChartLine className=\"mr-2 text-green-500\" />\n                        カテゴリ別スコア\n                    </h2>\n                    <div className=\"grid grid-cols-1 md:grid-cols-2 gap-4\">\n                        {diagnosticResult.score.categories.map((category, index) => (\n                            <div key={index} className=\"bg-gray-100 rounded-lg p-4\">\n                                <h3 className=\"font-semibold mb-2\">{category.name}</h3>\n                                <div className=\"relative pt-1\">\n                                    <div className=\"overflow-hidden h-2 mb-4 text-xs flex rounded bg-green-200\">\n                                        <div style={{ width: `${category.score}%` }} className=\"shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-500\"></div>\n                                    </div>\n                                    <div className=\"text-right\">{category.score}/100</div>\n                                </div>\n                            </div>\n                        ))}\n                    </div>\n                </div>\n\n                <div className=\"bg-white shadow-lg rounded-lg p-6 mb-8\">\n                    <h2 className=\"text-2xl font-semibold mb-4 flex items-center\">\n                        <FaLightbulb className=\"mr-2 text-yellow-500\" />\n                        分析コメント\n                    </h2>\n                    <p className=\"text-gray-700 leading-relaxed\">{diagnosticResult.analysis}</p>\n                </div>\n\n                <div className=\"text-center\">\n                    <button\n                        onClick={() => router.push('/improvement-proposal')}\n                        className=\"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full inline-flex items-center\"\n                    >\n                        <FaFileAlt className=\"mr-2\" />\n                        改善提案を見る\n                    </button>\n                </div>\n            </div>\n        </div>\n    );\n};\n\nexport default DiagnosticResult;"
+        }
+      ]
+    },
+    {
+      "id": "SCR-006",
+      "category": "診断",
+      "screenName": "改善提案表示",
+      "description": "AIが生成した改善提案を表示する画面",
+      "component": "優先順位付き改善提案リスト 各提案の詳細表示 レポート作成ボタン 改善計画作成ボタン",
+      "operatingProcedure": "1. 改善提案リストを確認する 2. 各提案の詳細を確認する 3. レポート作成ボタンをクリックしてレポート作成画面に遷移する 4. 改善計画作成ボタンをクリックして改善計画作成画面に遷移する",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "accessRight": "ログインユーザー",
+      "fileName": "improvement-proposals.tsx",
+      "estimationCategory": "screen",
+      "functionName": "改善提案表示",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate",
+      "relatedBackendHandles": [
+        {
+          "id": "BAC-005",
+          "category": "改善提案",
+          "handleName": "AI改善提案生成",
+          "description": "診断結果に基づいてAIが具体的な改善提案を生成する",
+          "handleProcedure": "1. 診断結果と企業プロファイルを受け取る 2. LLMに診断結果と企業プロファイルを入力し改善提案を生成する 3. 生成された改善提案をデータベースに保存する 4. 改善提案リストをフロントエンドに返す",
+          "fileName": "generate-improvement-proposals.ts",
+          "relatedScreen": "SCR-006",
+          "relatedFrontendCode": "\"use client\"\n\nimport React, { useState, useEffect } from 'react';\nimport { useRouter } from 'next/navigation';\nimport Link from 'next/link';\nimport { FaChartLine, FaClipboardList, FaFileAlt, FaPencilAlt } from 'react-icons/fa';\nimport Topbar from '@/components/Topbar';\nimport { createClient } from '@/supabase';\n\nconst ImprovementProposals = () => {\n  const router = useRouter();\n  const [proposals, setProposals] = useState([]);\n  const [selectedProposal, setSelectedProposal] = useState(null);\n  const supabase = createClient();\n\n  useEffect(() => {\n    fetchProposals();\n  }, []);\n\n  const fetchProposals = async () => {\n    const { data, error } = await supabase\n      .from('improvement_proposals')\n      .select('*')\n      .order('priority', { ascending: true });\n\n    if (error) {\n      console.error('Error fetching proposals:', error);\n      // ダミーデータを表示\n      setProposals([\n        { id: 1, content: 'DX推進体制の強化', priority: 1 },\n        { id: 2, content: 'デジタルスキル教育プログラムの導入', priority: 2 },\n        { id: 3, content: 'レガシーシステムの刷新', priority: 3 },\n      ]);\n    } else {\n      setProposals(data);\n    }\n  };\n\n  const handleProposalClick = (proposal) => {\n    setSelectedProposal(proposal);\n  };\n\n  return (\n    <div className=\"min-h-screen h-full bg-gray-100\">\n      <Topbar />\n      <div className=\"container mx-auto px-4 py-8\">\n        <h1 className=\"text-3xl font-bold mb-6 text-gray-800\">改善提案</h1>\n        <div className=\"grid grid-cols-1 md:grid-cols-3 gap-6\">\n          <div className=\"col-span-1 md:col-span-2\">\n            <h2 className=\"text-2xl font-semibold mb-4 text-gray-700\">優先順位付き改善提案リスト</h2>\n            <ul className=\"bg-white rounded-lg shadow-md\">\n              {proposals.map((proposal) => (\n                <li\n                  key={proposal.id}\n                  className=\"p-4 border-b last:border-b-0 hover:bg-gray-50 cursor-pointer transition-colors duration-200\"\n                  onClick={() => handleProposalClick(proposal)}\n                >\n                  <div className=\"flex items-center\">\n                    <span className=\"text-lg font-medium text-gray-800 mr-4\">\n                      {proposal.priority}.\n                    </span>\n                    <span className=\"text-gray-700\">{proposal.content}</span>\n                  </div>\n                </li>\n              ))}\n            </ul>\n          </div>\n          <div className=\"col-span-1\">\n            <h2 className=\"text-2xl font-semibold mb-4 text-gray-700\">提案詳細</h2>\n            {selectedProposal ? (\n              <div className=\"bg-white rounded-lg shadow-md p-6\">\n                <h3 className=\"text-xl font-semibold mb-2 text-gray-800\">\n                  {selectedProposal.content}\n                </h3>\n                <p className=\"text-gray-600 mb-4\">\n                  優先順位: {selectedProposal.priority}\n                </p>\n                <p className=\"text-gray-700\">\n                  この改善提案に基づいて具体的なアクションプランを立てることをお勧めします。\n                </p>\n              </div>\n            ) : (\n              <div className=\"bg-white rounded-lg shadow-md p-6 text-gray-500\">\n                提案を選択すると詳細が表示されます。\n              </div>\n            )}\n          </div>\n        </div>\n        <div className=\"mt-8 flex justify-center space-x-4\">\n          <Link href=\"/create-report\"\n            className=\"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center\"\n          >\n            <FaFileAlt className=\"mr-2\" />\n            レポート作成\n          </Link>\n          <Link href=\"/create-improvement-plan\"\n            className=\"bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center\"\n          >\n            <FaPencilAlt className=\"mr-2\" />\n            改善計画作成\n          </Link>\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default ImprovementProposals;"
+        }
+      ]
+    },
+    {
+      "id": "SCR-007",
+      "category": "レポート",
+      "screenName": "診断レポート作成",
+      "description": "診断結果と改善提案を含むレポートを作成する画面",
+      "component": "レポート内容プレビュー レポート生成ボタン",
+      "operatingProcedure": "1. レポート内容のプレビューを確認する 2. レポート生成ボタンをクリックする 3. レポートダウンロード画面に遷移する",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "accessRight": "ログインユーザー",
+      "fileName": "create-report.tsx",
+      "estimationCategory": "screen",
+      "functionName": "診断レポート作成",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate",
+      "relatedBackendHandles": [
+        {
+          "id": "BAC-006",
+          "category": "レポート",
+          "handleName": "診断レポート生成",
+          "description": "診断結果と改善提案を含む包括的なレポートを自動生成する",
+          "handleProcedure": "1. 診断結果 改善提案 企業情報を受け取る 2. テンプレートを使用してレポートを構築する 3. LLMを使用して分析コメントや推奨事項を生成する 4. PDFフォーマットでレポートを生成する 5. 生成されたレポートをデータベースに保存する 6. レポートIDをフロントエンドに返す",
+          "fileName": "generate-report.ts",
+          "relatedScreen": "SCR-007",
+          "relatedFrontendCode": "\"use client\"\n\nimport React, { useState, useEffect } from 'react';\nimport { useRouter } from 'next/navigation';\nimport { supabase } from '@/supabase';\nimport Topbar from '@/components/Topbar';\nimport { FaDownload, FaEdit } from 'react-icons/fa';\nimport axios from 'axios';\n\nconst CreateReport = () => {\n    const router = useRouter();\n    const [reportContent, setReportContent] = useState({\n        summary: '',\n        detailedAnalysis: [],\n        recommendations: []\n    });\n    const [isLoading, setIsLoading] = useState(true);\n\n    useEffect(() => {\n        fetchReportData();\n    }, []);\n\n    const fetchReportData = async () => {\n        setIsLoading(true);\n        try {\n            const { data, error } = await supabase\n                .from('reports')\n                .select('*')\n                .order('created_at', { ascending: false })\n                .limit(1)\n                .single();\n\n            if (error) throw error;\n\n            if (data) {\n                setReportContent(data.content);\n            }\n        } catch (error) {\n            console.error('Error fetching report data:', error);\n            // サンプルデータを表示\n            setReportContent({\n                summary: 'DX推進状況の概要',\n                detailedAnalysis: ['技術導入の遅れ', '組織文化の課題', 'デジタルスキルの不足'],\n                recommendations: ['クラウド技術の導入', '社内研修プログラムの実施', 'アジャイル開発手法の採用']\n            });\n        } finally {\n            setIsLoading(false);\n        }\n    };\n\n    const generateReport = async () => {\n        setIsLoading(true);\n        try {\n            const response = await axios.post('/api/generate-report', { reportContent });\n            if (response.data.success) {\n                router.push('/report-download');\n            } else {\n                throw new Error('レポート生成に失敗しました');\n            }\n        } catch (error) {\n            console.error('Error generating report:', error);\n            alert('レポート生成中にエラーが発生しました。もう一度お試しください。');\n        } finally {\n            setIsLoading(false);\n        }\n    };\n\n    return (\n        <div className=\"min-h-screen h-full bg-gray-100\">\n            <Topbar />\n            <div className=\"container mx-auto px-4 py-8\">\n                <h1 className=\"text-3xl font-bold text-gray-800 mb-6\">診断レポート作成</h1>\n                {isLoading ? (\n                    <div className=\"flex justify-center items-center h-64\">\n                        <div className=\"animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900\"></div>\n                    </div>\n                ) : (\n                    <div className=\"bg-white shadow-lg rounded-lg p-6\">\n                        <h2 className=\"text-2xl font-semibold mb-4\">レポート内容プレビュー</h2>\n                        <div className=\"mb-6\">\n                            <h3 className=\"text-xl font-medium mb-2\">概要</h3>\n                            <p className=\"text-gray-700\">{reportContent.summary}</p>\n                        </div>\n                        <div className=\"mb-6\">\n                            <h3 className=\"text-xl font-medium mb-2\">詳細分析</h3>\n                            <ul className=\"list-disc list-inside text-gray-700\">\n                                {reportContent.detailedAnalysis.map((item, index) => (\n                                    <li key={index}>{item}</li>\n                                ))}\n                            </ul>\n                        </div>\n                        <div className=\"mb-6\">\n                            <h3 className=\"text-xl font-medium mb-2\">推奨事項</h3>\n                            <ul className=\"list-disc list-inside text-gray-700\">\n                                {reportContent.recommendations.map((item, index) => (\n                                    <li key={index}>{item}</li>\n                                ))}\n                            </ul>\n                        </div>\n                        <div className=\"flex justify-between items-center mt-8\">\n                            <button\n                                onClick={() => router.push('/edit-report')}\n                                className=\"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex items-center\"\n                            >\n                                <FaEdit className=\"mr-2\" />\n                                編集する\n                            </button>\n                            <button\n                                onClick={generateReport}\n                                className=\"bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded flex items-center\"\n                            >\n                                <FaDownload className=\"mr-2\" />\n                                レポート生成\n                            </button>\n                        </div>\n                    </div>\n                )}\n            </div>\n        </div>\n    );\n};\n\nexport default CreateReport;"
+        }
+      ]
+    },
+    {
+      "id": "SCR-008",
+      "category": "レポート",
+      "screenName": "レポートダウンロード",
+      "description": "生成されたレポートをダウンロードする画面",
+      "component": "レポート概要表示 ダウンロードボタン",
+      "operatingProcedure": "1. レポートの概要を確認する 2. ダウンロードボタンをクリックする 3. PDFファイルがダウンロードされる",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "accessRight": "ログインユーザー",
+      "fileName": "download-report.tsx",
+      "estimationCategory": "screen",
+      "functionName": "レポートダウンロード",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple",
+      "relatedBackendHandles": []
+    },
+    {
+      "id": "SCR-009",
+      "category": "改善計画",
+      "screenName": "改善計画作成",
+      "description": "改善提案に基づいて具体的な改善計画を作成する画面",
+      "component": "選択された改善提案表示 計画詳細入力フォーム 目標日程設定 保存ボタン",
+      "operatingProcedure": "1. 改善提案を選択する 2. 計画の詳細を入力する 3. 目標日程を設定する 4. 保存ボタンをクリックする 5. 改善計画一覧画面に遷移する",
+      "user": "企業のDX推進担当者 IT部門マネージャー",
+      "accessRight": "ログインユーザー",
+      "fileName": "create-improvement-plan.tsx",
+      "estimationCategory": "screen",
+      "functionName": "改善計画作成",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate",
+      "relatedBackendHandles": []
+    },
+    {
+      "id": "SCR-010",
+      "category": "改善計画",
+      "screenName": "改善計画一覧",
+      "description": "作成された改善計画の一覧を表示する画面",
+      "component": "改善計画リスト 各計画の進捗状況表示 進捗更新ボタン",
+      "operatingProcedure": "1. 改善計画リストを確認する 2. 特定の計画の進捗更新ボタンをクリックする 3. 進捗更新画面に遷移する",
+      "user": "企業のDX推進担当者 IT部門マネージャー",
+      "accessRight": "ログインユーザー",
+      "fileName": "improvement-plans.tsx",
+      "estimationCategory": "screen",
+      "functionName": "改善計画一覧",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple",
+      "relatedBackendHandles": []
+    },
+    {
+      "id": "SCR-011",
+      "category": "改善計画",
+      "screenName": "進捗更新画面",
+      "description": "改善計画の進捗状況を更新する画面",
+      "component": "計画詳細表示 進捗状況選択 コメント入力欄 更新ボタン",
+      "operatingProcedure": "1. 計画詳細を確認する 2. 進捗状況を選択する 3. 必要に応じてコメントを入力する 4. 更新ボタンをクリックする 5. 改善計画一覧画面に戻る",
+      "user": "企業のDX推進担当者 IT部門マネージャー",
+      "accessRight": "ログインユーザー",
+      "fileName": "update-progress.tsx",
+      "estimationCategory": "screen",
+      "functionName": "進捗更新画面",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple",
+      "relatedBackendHandles": []
+    },
+    {
+      "id": "SCR-012",
+      "category": "履歴",
+      "screenName": "過去の診断結果",
+      "description": "過去に実施した診断の結果一覧を表示する画面",
+      "component": "診断結果リスト 各結果の概要表示 詳細表示ボタン 比較選択チェックボックス",
+      "operatingProcedure": "1. 診断結果リストを確認する 2. 特定の結果の詳細表示ボタンをクリックして診断結果表示画面に遷移する 3. 比較したい結果をチェックして診断結果比較画面に遷移する",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "accessRight": "ログインユーザー",
+      "fileName": "past-diagnostics.tsx",
+      "estimationCategory": "screen",
+      "functionName": "過去の診断結果",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate",
+      "relatedBackendHandles": []
+    },
+    {
+      "id": "SCR-013",
+      "category": "履歴",
+      "screenName": "診断結果比較",
+      "description": "選択された複数の診断結果を比較する画面",
+      "component": "比較対象の診断結果表示 スコア比較グラフ 改善度分析",
+      "operatingProcedure": "1. 比較対象の診断結果を確認する 2. スコア比較グラフを分析する 3. 改善度を確認する",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "accessRight": "ログインユーザー",
+      "fileName": "compare-results.tsx",
+      "estimationCategory": "screen",
+      "functionName": "診断結果比較",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate",
+      "relatedBackendHandles": []
+    },
+    {
+      "id": "SCR-014",
+      "category": "設定",
+      "screenName": "アカウント設定",
+      "description": "ユーザーアカウントの設定を管理する画面",
+      "component": "個人情報編集フォーム パスワード変更フォーム 通知設定 保存ボタン",
+      "operatingProcedure": "1. 必要に応じて個人情報を編集する 2. パスワードを変更する 3. 通知設定を調整する 4. 保存ボタンをクリックする",
+      "user": "ログインユーザー",
+      "accessRight": "ログインユーザー",
+      "fileName": "account-settings.tsx",
+      "estimationCategory": "screen",
+      "functionName": "アカウント設定",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple",
+      "relatedBackendHandles": []
+    },
+    {
+      "id": "SCR-015",
+      "category": "サポート",
+      "screenName": "ヘルプサポート",
+      "description": "ユーザーがヘルプを求めたりサポートを受けたりする画面",
+      "component": "FAQセクション チャットボットアクセスボタン サポートチケット発行フォーム",
+      "operatingProcedure": "1. FAQを確認する 2. チャットボットを利用する 3. 必要に応じてサポートチケットを発行する",
+      "user": "全てのユーザー",
+      "accessRight": "ログインユーザー",
+      "fileName": "help-support.tsx",
+      "estimationCategory": "screen",
+      "functionName": "ヘルプサポート",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate",
+      "relatedBackendHandles": []
+    },
+    {
+      "id": "SCR-016",
+      "category": "サポート",
+      "screenName": "FAQチャットボット",
+      "description": "AIチャットボットが質問に自動で回答する画面",
+      "component": "チャットウィンドウ メッセージ入力欄 送信ボタン",
+      "operatingProcedure": "1. 質問を入力する 2. 送信ボタンをクリックする 3. AIの回答を確認する 4. 必要に応じて追加質問を行う",
+      "user": "全てのユーザー",
+      "accessRight": "ログインユーザー",
+      "fileName": "faq-chatbot.tsx",
+      "estimationCategory": "screen",
+      "functionName": "FAQチャットボット",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate",
+      "relatedBackendHandles": [
+        {
+          "id": "BAC-009",
+          "category": "サポート",
+          "handleName": "FAQチャットボット",
+          "description": "AIを使用してよくある質問に自動で回答する",
+          "handleProcedure": "1. ユーザーの質問を受け取る 2. LLMに質問を入力し回答を生成する 3. 生成された回答をフロントエンドに返す 4. 質問と回答のログをデータベースに保存する",
+          "fileName": "faq-chatbot.ts",
+          "relatedScreen": "SCR-016",
+          "relatedFrontendCode": "\"use client\"\n\nimport { useState, useEffect, useRef } from 'react';\nimport { useRouter } from 'next/navigation';\nimport Topbar from '@/components/Topbar';\nimport { FaPaperPlane } from 'react-icons/fa';\nimport { createClient } from '@/supabase';\n\nconst FAQChatbot = () => {\n  const [messages, setMessages] = useState([]);\n  const [inputMessage, setInputMessage] = useState('');\n  const [isLoading, setIsLoading] = useState(false);\n  const chatContainerRef = useRef(null);\n  const router = useRouter();\n  const supabase = createClient();\n\n  useEffect(() => {\n    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;\n  }, [messages]);\n\n  const handleSendMessage = async () => {\n    if (inputMessage.trim() === '') return;\n\n    setIsLoading(true);\n    setMessages(prev => [...prev, { type: 'user', content: inputMessage }]);\n    setInputMessage('');\n\n    try {\n      const { data, error } = await supabase\n        .from('faq_chatbot')\n        .select('response')\n        .eq('query', inputMessage)\n        .single();\n\n      if (error) throw error;\n\n      const botResponse = data ? data.response : '申し訳ありませんが、その質問にはお答えできません。';\n      setMessages(prev => [...prev, { type: 'bot', content: botResponse }]);\n    } catch (error) {\n      console.error('Error fetching response:', error);\n      setMessages(prev => [...prev, { type: 'bot', content: 'エラーが発生しました。もう一度お試しください。' }]);\n    } finally {\n      setIsLoading(false);\n    }\n  };\n\n  return (\n    <div className=\"min-h-screen h-full bg-gray-100 flex flex-col\">\n      <Topbar />\n      <div className=\"flex-grow container mx-auto px-4 py-8\">\n        <h1 className=\"text-3xl font-bold text-gray-800 mb-6\">FAQチャットボット</h1>\n        <div className=\"bg-white rounded-lg shadow-md p-6\">\n          <div ref={chatContainerRef} className=\"h-96 overflow-y-auto mb-4\">\n            {messages.map((message, index) => (\n              <div key={index} className={`mb-4 ${message.type === 'user' ? 'text-right' : 'text-left'}`}>\n                <div className={`inline-block p-3 rounded-lg ${message.type === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}>\n                  {message.content}\n                </div>\n              </div>\n            ))}\n            {isLoading && (\n              <div className=\"text-center\">\n                <div className=\"inline-block p-3 bg-gray-200 rounded-lg\">\n                  回答を生成中...\n                </div>\n              </div>\n            )}\n          </div>\n          <div className=\"flex\">\n            <input\n              type=\"text\"\n              value={inputMessage}\n              onChange={(e) => setInputMessage(e.target.value)}\n              placeholder=\"質問を入力してください\"\n              className=\"flex-grow border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500\"\n              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}\n            />\n            <button\n              onClick={handleSendMessage}\n              disabled={isLoading}\n              className=\"bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500\"\n            >\n              <FaPaperPlane />\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default FAQChatbot;"
+        }
+      ]
+    },
+    {
+      "id": "SCR-017",
+      "category": "サポート",
+      "screenName": "サポートチケット発行",
+      "description": "ユーザーがサポートチケットを発行する画面",
+      "component": "問題カテゴリ選択 件名入力欄 詳細説明入力欄 提出ボタン",
+      "operatingProcedure": "1. 問題のカテゴリを選択する 2. 件名を入力する 3. 問題の詳細を説明する 4. 提出ボタンをクリックする",
+      "user": "全てのユーザー",
+      "accessRight": "ログインユーザー",
+      "fileName": "create-support-ticket.tsx",
+      "estimationCategory": "screen",
+      "functionName": "サポートチケット発行",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple",
+      "relatedBackendHandles": []
+    },
+    {
+      "id": "SCR-018",
+      "category": "レポート",
+      "screenName": "カスタムレポート作成",
+      "description": "ユーザーが指定した項目に基づいてカスタムレポートを作成する画面",
+      "component": "レポート項目選択チェックボックス データ範囲指定 レポート形式選択 生成ボタン",
+      "operatingProcedure": "1. 必要なレポート項目を選択する 2. データの範囲を指定する 3. レポート形式を選択する 4. 生成ボタンをクリックする 5. レポートダウンロード画面に遷移する",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "accessRight": "ログインユーザー",
+      "fileName": "custom-report.tsx",
+      "estimationCategory": "screen",
+      "functionName": "カスタムレポート作成",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate",
+      "relatedBackendHandles": [
+        {
+          "id": "BAC-010",
+          "category": "レポート",
+          "handleName": "カスタムレポート作成",
+          "description": "ユーザーが指定した項目に基づいてカスタマイズされたレポートを作成する",
+          "handleProcedure": "1. レポート項目選択とデータ範囲を受け取る 2. 指定された項目とデータ範囲に基づいてデータを取得する 3. カスタムレポートテンプレートを使用してレポートを構築する 4. PDFフォーマットでレポートを生成する 5. 生成されたレポートをデータベースに保存する 6. レポートIDをフロントエンドに返す",
+          "fileName": "generate-custom-report.ts",
+          "relatedScreen": "SCR-018",
+          "relatedFrontendCode": "\"use client\";\n\nimport React, { useState, useEffect } from 'react';\nimport { useRouter } from 'next/navigation';\nimport Topbar from '@/components/Topbar';\nimport { createClientComponentClient } from '@supabase/auth-helpers-nextjs';\nimport { FaFileAlt, FaCalendarAlt, FaFileDownload } from 'react-icons/fa';\nimport axios from 'axios';\n\nconst CustomReport = () => {\n  const router = useRouter();\n  const supabase = createClientComponentClient();\n  const [selectedItems, setSelectedItems] = useState([]);\n  const [dateRange, setDateRange] = useState({ start: '', end: '' });\n  const [reportFormat, setReportFormat] = useState('pdf');\n  const [loading, setLoading] = useState(false);\n\n  const reportItems = [\n    { id: 1, name: '全体スコア' },\n    { id: 2, name: 'カテゴリ別スコア' },\n    { id: 3, name: '分析コメント' },\n    { id: 4, name: '改善提案' },\n    { id: 5, name: '進捗状況' },\n  ];\n\n  const handleItemSelect = (id) => {\n    if (selectedItems.includes(id)) {\n      setSelectedItems(selectedItems.filter(item => item !== id));\n    } else {\n      setSelectedItems([...selectedItems, id]);\n    }\n  };\n\n  const handleDateChange = (e) => {\n    setDateRange({ ...dateRange, [e.target.name]: e.target.value });\n  };\n\n  const handleFormatChange = (e) => {\n    setReportFormat(e.target.value);\n  };\n\n  const generateReport = async () => {\n    setLoading(true);\n    try {\n      const response = await axios.post('/api/generate-custom-report', {\n        selectedItems,\n        dateRange,\n        reportFormat\n      });\n      \n      // Handle the response, e.g., download the report\n      console.log('レポート生成成功:', response.data);\n      // TODO: レポートのダウンロード処理を実装\n    } catch (error) {\n      console.error('レポート生成エラー:', error);\n    } finally {\n      setLoading(false);\n    }\n  };\n\n  return (\n    <div className=\"min-h-screen h-full bg-gray-100\">\n      <Topbar />\n      <div className=\"container mx-auto px-4 py-8\">\n        <h1 className=\"text-3xl font-bold mb-8 text-gray-800\">カスタムレポート作成</h1>\n        \n        <div className=\"bg-white shadow-md rounded-lg p-6 mb-8\">\n          <h2 className=\"text-xl font-semibold mb-4 text-gray-700\">レポート項目選択</h2>\n          <div className=\"grid grid-cols-2 md:grid-cols-3 gap-4\">\n            {reportItems.map(item => (\n              <div key={item.id} className=\"flex items-center\">\n                <input\n                  type=\"checkbox\"\n                  id={`item-${item.id}`}\n                  checked={selectedItems.includes(item.id)}\n                  onChange={() => handleItemSelect(item.id)}\n                  className=\"mr-2\"\n                />\n                <label htmlFor={`item-${item.id}`} className=\"text-gray-700\">{item.name}</label>\n              </div>\n            ))}\n          </div>\n        </div>\n        \n        <div className=\"bg-white shadow-md rounded-lg p-6 mb-8\">\n          <h2 className=\"text-xl font-semibold mb-4 text-gray-700\">データ範囲指定</h2>\n          <div className=\"flex flex-wrap -mx-2\">\n            <div className=\"w-full md:w-1/2 px-2 mb-4\">\n              <label className=\"block text-gray-700 mb-2\" htmlFor=\"start-date\">開始日</label>\n              <input\n                type=\"date\"\n                id=\"start-date\"\n                name=\"start\"\n                value={dateRange.start}\n                onChange={handleDateChange}\n                className=\"w-full p-2 border rounded\"\n              />\n            </div>\n            <div className=\"w-full md:w-1/2 px-2 mb-4\">\n              <label className=\"block text-gray-700 mb-2\" htmlFor=\"end-date\">終了日</label>\n              <input\n                type=\"date\"\n                id=\"end-date\"\n                name=\"end\"\n                value={dateRange.end}\n                onChange={handleDateChange}\n                className=\"w-full p-2 border rounded\"\n              />\n            </div>\n          </div>\n        </div>\n        \n        <div className=\"bg-white shadow-md rounded-lg p-6 mb-8\">\n          <h2 className=\"text-xl font-semibold mb-4 text-gray-700\">レポート形式選択</h2>\n          <select\n            value={reportFormat}\n            onChange={handleFormatChange}\n            className=\"w-full p-2 border rounded\"\n          >\n            <option value=\"pdf\">PDF</option>\n            <option value=\"excel\">Excel</option>\n            <option value=\"csv\">CSV</option>\n          </select>\n        </div>\n        \n        <button\n          onClick={generateReport}\n          disabled={loading}\n          className=\"bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center w-full md:w-auto\"\n        >\n          {loading ? (\n            <span>生成中...</span>\n          ) : (\n            <>\n              <FaFileDownload className=\"mr-2\" />\n              レポート生成\n            </>\n          )}\n        </button>\n      </div>\n    </div>\n  );\n};\n\nexport default CustomReport;"
+        }
+      ]
+    },
+    {
+      "id": "SCR-019",
+      "category": "認証",
+      "screenName": "パスワードリセット",
+      "description": "ユーザーがパスワードをリセットする画面",
+      "component": "メールアドレス入力欄 送信ボタン",
+      "operatingProcedure": "1. メールアドレスを入力する 2. 送信ボタンをクリックする 3. パスワードリセット用のメールが送信される",
+      "user": "全てのユーザー",
+      "accessRight": "ゲスト",
+      "fileName": "password-reset.tsx",
+      "estimationCategory": "screen",
+      "functionName": "パスワードリセット",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple",
+      "relatedBackendHandles": []
+    },
+    {
+      "id": "SCR-020",
+      "category": "認証",
+      "screenName": "新規アカウント登録",
+      "description": "新規ユーザーがアカウントを作成する画面",
+      "component": "メールアドレス入力欄 パスワード入力欄 企業名入力欄 部署名入力欄 役職入力欄 登録ボタン",
+      "operatingProcedure": "1. 必要な情報を入力する 2. 登録ボタンをクリックする 3. 確認メールが送信される 4. メール内のリンクをクリックしてアカウントを有効化する",
+      "user": "新規ユーザー",
+      "accessRight": "ゲスト",
+      "fileName": "signup.tsx",
+      "estimationCategory": "screen",
+      "functionName": "新規アカウント登録",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate",
+      "relatedBackendHandles": []
+    }
+  ]
+}

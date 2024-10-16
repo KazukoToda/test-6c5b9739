@@ -1,0 +1,515 @@
+{
+  "key": "tableDefinition",
+  "value": [
+    {
+      "id": "TAB-001",
+      "table": "users",
+      "column": "id",
+      "dataType": "uuid",
+      "regulation": "PRIMARY KEY",
+      "defaultValue": "gen_random_uuid()",
+      "foreignKey": "",
+      "description": "ユーザーの一意識別子"
+    },
+    {
+      "id": "TAB-002",
+      "table": "users",
+      "column": "email",
+      "dataType": "text",
+      "regulation": "UNIQUE NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "ユーザーのメールアドレス"
+    },
+    {
+      "id": "TAB-003",
+      "table": "users",
+      "column": "password_hash",
+      "dataType": "text",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "ハッシュ化されたパスワード"
+    },
+    {
+      "id": "TAB-004",
+      "table": "users",
+      "column": "company_name",
+      "dataType": "text",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "ユーザーの所属企業名"
+    },
+    {
+      "id": "TAB-005",
+      "table": "users",
+      "column": "department",
+      "dataType": "text",
+      "regulation": "",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "ユーザーの所属部署"
+    },
+    {
+      "id": "TAB-006",
+      "table": "users",
+      "column": "position",
+      "dataType": "text",
+      "regulation": "",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "ユーザーの役職"
+    },
+    {
+      "id": "TAB-007",
+      "table": "users",
+      "column": "created_at",
+      "dataType": "timestamp with time zone",
+      "regulation": "NOT NULL",
+      "defaultValue": "CURRENT_TIMESTAMP",
+      "foreignKey": "",
+      "description": "アカウント作成日時"
+    },
+    {
+      "id": "TAB-008",
+      "table": "users",
+      "column": "updated_at",
+      "dataType": "timestamp with time zone",
+      "regulation": "NOT NULL",
+      "defaultValue": "CURRENT_TIMESTAMP",
+      "foreignKey": "",
+      "description": "アカウント更新日時"
+    },
+    {
+      "id": "TAB-009",
+      "table": "diagnostic_sessions",
+      "column": "id",
+      "dataType": "uuid",
+      "regulation": "PRIMARY KEY",
+      "defaultValue": "gen_random_uuid()",
+      "foreignKey": "",
+      "description": "診断セッションの一意識別子"
+    },
+    {
+      "id": "TAB-010",
+      "table": "diagnostic_sessions",
+      "column": "user_id",
+      "dataType": "uuid",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "REFERENCES users(id)",
+      "description": "診断を実施したユーザーのID"
+    },
+    {
+      "id": "TAB-011",
+      "table": "diagnostic_sessions",
+      "column": "start_time",
+      "dataType": "timestamp with time zone",
+      "regulation": "NOT NULL",
+      "defaultValue": "CURRENT_TIMESTAMP",
+      "foreignKey": "",
+      "description": "診断セッション開始時間"
+    },
+    {
+      "id": "TAB-012",
+      "table": "diagnostic_sessions",
+      "column": "end_time",
+      "dataType": "timestamp with time zone",
+      "regulation": "",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "診断セッション終了時間"
+    },
+    {
+      "id": "TAB-013",
+      "table": "diagnostic_sessions",
+      "column": "status",
+      "dataType": "text",
+      "regulation": "NOT NULL",
+      "defaultValue": "'in_progress'",
+      "foreignKey": "",
+      "description": "診断セッションのステータス（'in_progress' 'completed' 'abandoned'）"
+    },
+    {
+      "id": "TAB-014",
+      "table": "questions",
+      "column": "id",
+      "dataType": "uuid",
+      "regulation": "PRIMARY KEY",
+      "defaultValue": "gen_random_uuid()",
+      "foreignKey": "",
+      "description": "質問の一意識別子"
+    },
+    {
+      "id": "TAB-015",
+      "table": "questions",
+      "column": "session_id",
+      "dataType": "uuid",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "REFERENCES diagnostic_sessions(id)",
+      "description": "質問が属する診断セッションのID"
+    },
+    {
+      "id": "TAB-016",
+      "table": "questions",
+      "column": "content",
+      "dataType": "text",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "質問の内容"
+    },
+    {
+      "id": "TAB-017",
+      "table": "questions",
+      "column": "order",
+      "dataType": "integer",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "セッション内での質問の順序"
+    },
+    {
+      "id": "TAB-018",
+      "table": "questions",
+      "column": "created_at",
+      "dataType": "timestamp with time zone",
+      "regulation": "NOT NULL",
+      "defaultValue": "CURRENT_TIMESTAMP",
+      "foreignKey": "",
+      "description": "質問が生成された日時"
+    },
+    {
+      "id": "TAB-019",
+      "table": "answers",
+      "column": "id",
+      "dataType": "uuid",
+      "regulation": "PRIMARY KEY",
+      "defaultValue": "gen_random_uuid()",
+      "foreignKey": "",
+      "description": "回答の一意識別子"
+    },
+    {
+      "id": "TAB-020",
+      "table": "answers",
+      "column": "question_id",
+      "dataType": "uuid",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "REFERENCES questions(id)",
+      "description": "回答が対応する質問のID"
+    },
+    {
+      "id": "TAB-021",
+      "table": "answers",
+      "column": "content",
+      "dataType": "text",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "ユーザーの回答内容"
+    },
+    {
+      "id": "TAB-022",
+      "table": "answers",
+      "column": "created_at",
+      "dataType": "timestamp with time zone",
+      "regulation": "NOT NULL",
+      "defaultValue": "CURRENT_TIMESTAMP",
+      "foreignKey": "",
+      "description": "回答が記録された日時"
+    },
+    {
+      "id": "TAB-023",
+      "table": "diagnostic_results",
+      "column": "id",
+      "dataType": "uuid",
+      "regulation": "PRIMARY KEY",
+      "defaultValue": "gen_random_uuid()",
+      "foreignKey": "",
+      "description": "診断結果の一意識別子"
+    },
+    {
+      "id": "TAB-024",
+      "table": "diagnostic_results",
+      "column": "session_id",
+      "dataType": "uuid",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "REFERENCES diagnostic_sessions(id)",
+      "description": "診断結果が属するセッションのID"
+    },
+    {
+      "id": "TAB-025",
+      "table": "diagnostic_results",
+      "column": "score",
+      "dataType": "jsonb",
+      "regulation": "NOT NULL",
+      "defaultValue": "'{\"overall\": 0 \"categories\": []}'",
+      "foreignKey": "",
+      "description": "診断スコア（全体スコアとカテゴリ別スコア）"
+    },
+    {
+      "id": "TAB-026",
+      "table": "diagnostic_results",
+      "column": "analysis",
+      "dataType": "text",
+      "regulation": "",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "診断結果の分析コメント"
+    },
+    {
+      "id": "TAB-027",
+      "table": "diagnostic_results",
+      "column": "created_at",
+      "dataType": "timestamp with time zone",
+      "regulation": "NOT NULL",
+      "defaultValue": "CURRENT_TIMESTAMP",
+      "foreignKey": "",
+      "description": "診断結果が生成された日時"
+    },
+    {
+      "id": "TAB-028",
+      "table": "improvement_proposals",
+      "column": "id",
+      "dataType": "uuid",
+      "regulation": "PRIMARY KEY",
+      "defaultValue": "gen_random_uuid()",
+      "foreignKey": "",
+      "description": "改善提案の一意識別子"
+    },
+    {
+      "id": "TAB-029",
+      "table": "improvement_proposals",
+      "column": "result_id",
+      "dataType": "uuid",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "REFERENCES diagnostic_results(id)",
+      "description": "改善提案が対応する診断結果のID"
+    },
+    {
+      "id": "TAB-030",
+      "table": "improvement_proposals",
+      "column": "content",
+      "dataType": "text",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "改善提案の内容"
+    },
+    {
+      "id": "TAB-031",
+      "table": "improvement_proposals",
+      "column": "priority",
+      "dataType": "integer",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "改善提案の優先順位"
+    },
+    {
+      "id": "TAB-032",
+      "table": "improvement_proposals",
+      "column": "created_at",
+      "dataType": "timestamp with time zone",
+      "regulation": "NOT NULL",
+      "defaultValue": "CURRENT_TIMESTAMP",
+      "foreignKey": "",
+      "description": "改善提案が生成された日時"
+    },
+    {
+      "id": "TAB-033",
+      "table": "improvement_plans",
+      "column": "id",
+      "dataType": "uuid",
+      "regulation": "PRIMARY KEY",
+      "defaultValue": "gen_random_uuid()",
+      "foreignKey": "",
+      "description": "改善計画の一意識別子"
+    },
+    {
+      "id": "TAB-034",
+      "table": "improvement_plans",
+      "column": "user_id",
+      "dataType": "uuid",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "REFERENCES users(id)",
+      "description": "改善計画を作成したユーザーのID"
+    },
+    {
+      "id": "TAB-035",
+      "table": "improvement_plans",
+      "column": "proposal_id",
+      "dataType": "uuid",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "REFERENCES improvement_proposals(id)",
+      "description": "改善計画が基づく改善提案のID"
+    },
+    {
+      "id": "TAB-036",
+      "table": "improvement_plans",
+      "column": "description",
+      "dataType": "text",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "改善計画の詳細説明"
+    },
+    {
+      "id": "TAB-037",
+      "table": "improvement_plans",
+      "column": "target_date",
+      "dataType": "date",
+      "regulation": "",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "改善計画の目標達成日"
+    },
+    {
+      "id": "TAB-038",
+      "table": "improvement_plans",
+      "column": "status",
+      "dataType": "text",
+      "regulation": "NOT NULL",
+      "defaultValue": "'not_started'",
+      "foreignKey": "",
+      "description": "改善計画の進捗状況（'not_started' 'in_progress' 'completed'）"
+    },
+    {
+      "id": "TAB-039",
+      "table": "improvement_plans",
+      "column": "created_at",
+      "dataType": "timestamp with time zone",
+      "regulation": "NOT NULL",
+      "defaultValue": "CURRENT_TIMESTAMP",
+      "foreignKey": "",
+      "description": "改善計画が作成された日時"
+    },
+    {
+      "id": "TAB-040",
+      "table": "improvement_plans",
+      "column": "updated_at",
+      "dataType": "timestamp with time zone",
+      "regulation": "NOT NULL",
+      "defaultValue": "CURRENT_TIMESTAMP",
+      "foreignKey": "",
+      "description": "改善計画が最後に更新された日時"
+    },
+    {
+      "id": "TAB-041",
+      "table": "reports",
+      "column": "id",
+      "dataType": "uuid",
+      "regulation": "PRIMARY KEY",
+      "defaultValue": "gen_random_uuid()",
+      "foreignKey": "",
+      "description": "レポートの一意識別子"
+    },
+    {
+      "id": "TAB-042",
+      "table": "reports",
+      "column": "session_id",
+      "dataType": "uuid",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "REFERENCES diagnostic_sessions(id)",
+      "description": "レポートが対応する診断セッションのID"
+    },
+    {
+      "id": "TAB-043",
+      "table": "reports",
+      "column": "content",
+      "dataType": "jsonb",
+      "regulation": "NOT NULL",
+      "defaultValue": "'{\"summary\": \"\" \"detailed_analysis\": [] \"recommendations\": []}'",
+      "foreignKey": "",
+      "description": "レポートの内容（概要、詳細分析、推奨事項など）"
+    },
+    {
+      "id": "TAB-044",
+      "table": "reports",
+      "column": "created_at",
+      "dataType": "timestamp with time zone",
+      "regulation": "NOT NULL",
+      "defaultValue": "CURRENT_TIMESTAMP",
+      "foreignKey": "",
+      "description": "レポートが生成された日時"
+    },
+    {
+      "id": "TAB-045",
+      "table": "support_tickets",
+      "column": "id",
+      "dataType": "uuid",
+      "regulation": "PRIMARY KEY",
+      "defaultValue": "gen_random_uuid()",
+      "foreignKey": "",
+      "description": "サポートチケットの一意識別子"
+    },
+    {
+      "id": "TAB-046",
+      "table": "support_tickets",
+      "column": "user_id",
+      "dataType": "uuid",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "REFERENCES users(id)",
+      "description": "サポートチケットを作成したユーザーのID"
+    },
+    {
+      "id": "TAB-047",
+      "table": "support_tickets",
+      "column": "subject",
+      "dataType": "text",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "サポートチケットの件名"
+    },
+    {
+      "id": "TAB-048",
+      "table": "support_tickets",
+      "column": "description",
+      "dataType": "text",
+      "regulation": "NOT NULL",
+      "defaultValue": "",
+      "foreignKey": "",
+      "description": "サポートチケットの詳細内容"
+    },
+    {
+      "id": "TAB-049",
+      "table": "support_tickets",
+      "column": "status",
+      "dataType": "text",
+      "regulation": "NOT NULL",
+      "defaultValue": "'open'",
+      "foreignKey": "",
+      "description": "サポートチケットのステータス（'open' 'in_progress' 'resolved' 'closed'）"
+    },
+    {
+      "id": "TAB-050",
+      "table": "support_tickets",
+      "column": "created_at",
+      "dataType": "timestamp with time zone",
+      "regulation": "NOT NULL",
+      "defaultValue": "CURRENT_TIMESTAMP",
+      "foreignKey": "",
+      "description": "サポートチケットが作成された日時"
+    },
+    {
+      "id": "TAB-051",
+      "table": "support_tickets",
+      "column": "updated_at",
+      "dataType": "timestamp with time zone",
+      "regulation": "NOT NULL",
+      "defaultValue": "CURRENT_TIMESTAMP",
+      "foreignKey": "",
+      "description": "サポートチケットが最後に更新された日時"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "key": "systemArchitecture",
+  "value": {
+    "mermaid": "graph TD\n    subgraph Frontend\n        A[ユーザーインターフェース]\n        B[診断セッション管理]\n        C[結果可視化]\n        D[レポート表示]\n    end\n\n    subgraph Backend\n        E[APIサーバー]\n        F[認証サービス]\n        G[LLM連携モジュール]\n        H[分析エンジン]\n        I[レポート生成エンジン]\n    end\n\n    subgraph Database\n        J[(ユーザーデータ)]\n        K[(診断データ)]\n        L[(レポートデータ)]\n    end\n\n    subgraph ExternalServices\n        M[LLMサービス]\n        N[メール配信サービス]\n    end\n\n    A --> E\n    B --> E\n    C --> E\n    D --> E\n\n    E --> F\n    E --> G\n    E --> H\n    E --> I\n\n    F --> J\n    G --> M\n    H --> K\n    I --> L\n\n    E --> J\n    E --> K\n    E --> L\n\n    F --> N"
+  }
+}

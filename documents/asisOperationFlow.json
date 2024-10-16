@@ -1,0 +1,6 @@
+{
+  "key": "asisOperationFlow",
+  "value": {
+    "mermaid": "graph TD\n    subgraph ユーザー\n        A[DX推進担当者] --> B[システムにアクセス]\n        B --> C[自己診断開始]\n        C --> D[質問に回答]\n    end\n\n    subgraph システム\n        D --> E[LLMによる回答分析]\n        E --> F[客観的評価生成]\n        F --> G[即時フィードバック提供]\n        G --> H[結果の自動分析]\n        H --> I[改善提案生成]\n    end\n\n    subgraph ユーザー\n        I --> J[診断結果確認]\n        J --> K[改善点の特定]\n        K --> L[DX推進計画の更新]\n    end\n\n    subgraph システム\n        L --> M[定期的な機能アップデート]\n    end"
+  }
+}

@@ -1,0 +1,467 @@
+{
+  "key": "functionsList",
+  "value": [
+    {
+      "id": "FUN-001",
+      "category": "ユーザー管理",
+      "function_name": "アカウント登録",
+      "description": "新規ユーザーがシステムにアカウントを作成する機能",
+      "input": "メールアドレス パスワード 企業名 部署名 役職",
+      "output": "アカウント作成完了通知 確認メール送信",
+      "user": "全てのユーザー",
+      "estimationCategory": "function",
+      "functionName": "アカウント登録",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple"
+    },
+    {
+      "id": "FUN-002",
+      "category": "ユーザー管理",
+      "function_name": "ログイン認証",
+      "description": "登録済みユーザーがシステムにログインする機能",
+      "input": "メールアドレス パスワード",
+      "output": "認証結果 ユーザーセッション",
+      "user": "全てのユーザー",
+      "estimationCategory": "function",
+      "functionName": "ログイン認証",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple"
+    },
+    {
+      "id": "FUN-003",
+      "category": "自己診断",
+      "function_name": "診断セッション開始",
+      "description": "ユーザーが新しい自己診断セッションを開始する機能",
+      "input": "ユーザーID 診断開始リクエスト",
+      "output": "診断セッションID 診断概要説明",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "estimationCategory": "function",
+      "functionName": "診断セッション開始",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple"
+    },
+    {
+      "id": "FUN-004",
+      "category": "自己診断",
+      "function_name": "AI質問生成",
+      "description": "LLMがDX推進指標に基づいて質問を生成する機能",
+      "input": "診断セッションID DX推進指標データ",
+      "output": "質問リスト",
+      "user": "システム内部",
+      "estimationCategory": "function",
+      "functionName": "AI質問生成",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0300",
+        "design": "0.0300",
+        "implementation": "0.1200",
+        "test": "0.0600",
+        "release": "0.0300",
+        "migration": "0.0300"
+      },
+      "difficulty": "Complex"
+    },
+    {
+      "id": "FUN-005",
+      "category": "自己診断",
+      "function_name": "ユーザー回答入力",
+      "description": "ユーザーがAIの質問に対して回答を入力する機能",
+      "input": "質問ID ユーザーの回答",
+      "output": "回答データ保存確認",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "estimationCategory": "function",
+      "functionName": "ユーザー回答入力",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple"
+    },
+    {
+      "id": "FUN-006",
+      "category": "自己診断",
+      "function_name": "AI追加質問生成",
+      "description": "ユーザーの回答に基づいてLLMが追加質問を生成する機能",
+      "input": "ユーザーの回答 診断コンテキスト",
+      "output": "追加質問",
+      "user": "システム内部",
+      "estimationCategory": "function",
+      "functionName": "AI追加質問生成",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0300",
+        "design": "0.0300",
+        "implementation": "0.1200",
+        "test": "0.0600",
+        "release": "0.0300",
+        "migration": "0.0300"
+      },
+      "difficulty": "Complex"
+    },
+    {
+      "id": "FUN-007",
+      "category": "診断結果",
+      "function_name": "回答分析",
+      "description": "AIがユーザーの回答を分析しスコアを算出する機能",
+      "input": "診断セッションID 全回答データ",
+      "output": "分析結果 スコア",
+      "user": "システム内部",
+      "estimationCategory": "function",
+      "functionName": "回答分析",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0300",
+        "design": "0.0300",
+        "implementation": "0.1200",
+        "test": "0.0600",
+        "release": "0.0300",
+        "migration": "0.0300"
+      },
+      "difficulty": "Complex"
+    },
+    {
+      "id": "FUN-008",
+      "category": "診断結果",
+      "function_name": "結果可視化",
+      "description": "診断結果をグラフや図表で視覚的に表示する機能",
+      "input": "分析結果 スコア",
+      "output": "視覚化されたレポート",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "estimationCategory": "function",
+      "functionName": "結果可視化",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate"
+    },
+    {
+      "id": "FUN-009",
+      "category": "改善提案",
+      "function_name": "AI改善提案生成",
+      "description": "診断結果に基づいてAIが具体的な改善提案を生成する機能",
+      "input": "診断結果 企業プロファイル",
+      "output": "改善提案リスト",
+      "user": "システム内部",
+      "estimationCategory": "function",
+      "functionName": "AI改善提案生成",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0300",
+        "design": "0.0300",
+        "implementation": "0.1200",
+        "test": "0.0600",
+        "release": "0.0300",
+        "migration": "0.0300"
+      },
+      "difficulty": "Complex"
+    },
+    {
+      "id": "FUN-010",
+      "category": "改善提案",
+      "function_name": "提案優先順位付け",
+      "description": "生成された改善提案に優先順位を付ける機能",
+      "input": "改善提案リスト",
+      "output": "優先順位付き改善提案リスト",
+      "user": "システム内部",
+      "estimationCategory": "function",
+      "functionName": "提案優先順位付け",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0300",
+        "design": "0.0300",
+        "implementation": "0.1200",
+        "test": "0.0600",
+        "release": "0.0300",
+        "migration": "0.0300"
+      },
+      "difficulty": "Complex"
+    },
+    {
+      "id": "FUN-011",
+      "category": "レポート作成",
+      "function_name": "診断レポート生成",
+      "description": "診断結果と改善提案を含む包括的なレポートを自動生成する機能",
+      "input": "診断結果 改善提案 企業情報",
+      "output": "診断レポートPDF",
+      "user": "システム内部",
+      "estimationCategory": "function",
+      "functionName": "診断レポート生成",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0300",
+        "design": "0.0300",
+        "implementation": "0.1200",
+        "test": "0.0600",
+        "release": "0.0300",
+        "migration": "0.0300"
+      },
+      "difficulty": "Complex"
+    },
+    {
+      "id": "FUN-012",
+      "category": "レポート作成",
+      "function_name": "レポートダウンロード",
+      "description": "生成されたレポートをPDF形式でダウンロードする機能",
+      "input": "レポートID ダウンロードリクエスト",
+      "output": "PDFファイル",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "estimationCategory": "function",
+      "functionName": "レポートダウンロード",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple"
+    },
+    {
+      "id": "FUN-013",
+      "category": "進捗管理",
+      "function_name": "改善計画登録",
+      "description": "ユーザーが改善計画を登録し進捗を追跡する機能",
+      "input": "改善計画詳細 目標日程",
+      "output": "改善計画ID 登録確認",
+      "user": "企業のDX推進担当者 IT部門マネージャー",
+      "estimationCategory": "function",
+      "functionName": "改善計画登録",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate"
+    },
+    {
+      "id": "FUN-014",
+      "category": "進捗管理",
+      "function_name": "進捗更新",
+      "description": "登録された改善計画の進捗状況を更新する機能",
+      "input": "改善計画ID 進捗状況",
+      "output": "更新確認",
+      "user": "企業のDX推進担当者 IT部門マネージャー",
+      "estimationCategory": "function",
+      "functionName": "進捗更新",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple"
+    },
+    {
+      "id": "FUN-015",
+      "category": "進捗管理",
+      "function_name": "リマインダー設定",
+      "description": "改善計画の進捗確認リマインダーを設定する機能",
+      "input": "改善計画ID リマインダー頻度",
+      "output": "リマインダー設定確認",
+      "user": "企業のDX推進担当者 IT部門マネージャー",
+      "estimationCategory": "function",
+      "functionName": "リマインダー設定",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0150",
+        "design": "0.0150",
+        "implementation": "0.0600",
+        "test": "0.0300",
+        "release": "0.0150",
+        "migration": "0.0150"
+      },
+      "difficulty": "Simple"
+    },
+    {
+      "id": "FUN-016",
+      "category": "データ管理",
+      "function_name": "診断履歴保存",
+      "description": "過去の診断結果や改善計画の履歴を保存する機能",
+      "input": "診断結果 改善計画 タイムスタンプ",
+      "output": "保存確認",
+      "user": "システム内部",
+      "estimationCategory": "function",
+      "functionName": "診断履歴保存",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate"
+    },
+    {
+      "id": "FUN-017",
+      "category": "データ管理",
+      "function_name": "診断結果比較",
+      "description": "複数の診断結果を比較する機能",
+      "input": "比較対象の診断結果ID",
+      "output": "比較レポート",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "estimationCategory": "function",
+      "functionName": "診断結果比較",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate"
+    },
+    {
+      "id": "FUN-018",
+      "category": "セキュリティ",
+      "function_name": "データ暗号化",
+      "description": "保存されるデータを暗号化する機能",
+      "input": "未暗号化データ",
+      "output": "暗号化データ",
+      "user": "システム内部",
+      "estimationCategory": "function",
+      "functionName": "データ暗号化",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate"
+    },
+    {
+      "id": "FUN-019",
+      "category": "セキュリティ",
+      "function_name": "アクセス制御",
+      "description": "ユーザーの権限に基づいてデータアクセスを制御する機能",
+      "input": "ユーザーID アクセス対象リソース",
+      "output": "アクセス許可/拒否",
+      "user": "システム内部",
+      "estimationCategory": "function",
+      "functionName": "アクセス制御",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate"
+    },
+    {
+      "id": "FUN-020",
+      "category": "サポート",
+      "function_name": "FAQチャットボット",
+      "description": "よくある質問に自動で回答するチャットボット機能",
+      "input": "ユーザーの質問",
+      "output": "自動生成された回答",
+      "user": "全てのユーザー",
+      "estimationCategory": "function",
+      "functionName": "FAQチャットボット",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0300",
+        "design": "0.0300",
+        "implementation": "0.1200",
+        "test": "0.0600",
+        "release": "0.0300",
+        "migration": "0.0300"
+      },
+      "difficulty": "Complex"
+    },
+    {
+      "id": "FUN-021",
+      "category": "サポート",
+      "function_name": "サポートチケット発行",
+      "description": "ユーザーからの問い合わせに対してサポートチケットを発行する機能",
+      "input": "問い合わせ内容 ユーザー情報",
+      "output": "サポートチケットID",
+      "user": "全てのユーザー",
+      "estimationCategory": "function",
+      "functionName": "サポートチケット発行",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate"
+    },
+    {
+      "id": "FUN-022",
+      "category": "レポート作成",
+      "function_name": "カスタムレポート作成",
+      "description": "ユーザーが指定した項目に基づいてカスタマイズされたレポートを作成する機能",
+      "input": "レポート項目選択 データ範囲",
+      "output": "カスタムレポートPDF",
+      "user": "企業のDX推進担当者 経営層 IT部門マネージャー",
+      "estimationCategory": "function",
+      "functionName": "カスタムレポート作成",
+      "target": true,
+      "manMonth": {
+        "requirementDefinition": "0.0200",
+        "design": "0.0200",
+        "implementation": "0.0800",
+        "test": "0.0400",
+        "release": "0.0200",
+        "migration": "0.0200"
+      },
+      "difficulty": "Moderate"
+    }
+  ]
+}
